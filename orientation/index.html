@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Myo</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+	<script src="/libs/pl.js"></script>
+
+	<script>
+		"use strict"
+		let ws
+
+		function send_orientation (e) {
+			ws.plsend({x:e.alpha, y:e.beta, z:e.gamma})
+		}
+
+		onload = function () {
+			PL.app_channel()
+			.then(function (_ws) {
+				ws = _ws
+				window.ondeviceorientation = send_orientation
+			})
+		}
+	</script>
+	<style>
+	body {
+		background: black;
+	}
+	</style>
+</head>
+<body>
+</body>
+</html>

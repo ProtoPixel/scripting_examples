@@ -1,0 +1,22 @@
+<html><body><h1>Sending Accelerometer!</h1></body>
+<script src="/libs/pl.js"></script>
+<script type="text/javascript">
+
+//Requesting a websocket channel for the current content.
+PL.app_channel()
+.then(function (ws) {
+	if (window.DeviceMotionEvent != undefined) {
+		window.ondevicemotion = function(e) {
+			var data = {
+				x: e.accelerationIncludingGravity.x,
+				y: e.accelerationIncludingGravity.y,
+				z: e.accelerationIncludingGravity.z
+			}
+			// You can use ws.plsend() to send data to the python script
+			ws.plsend(data)
+		}
+	}
+})
+	
+</script>
+</html>
