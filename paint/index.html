@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PPx mobile paint</title>
+
+	<!-- Meta tags -->
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+	<meta name="mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+	<link rel="icon" href="protologo.png"/>
+
+    <!-- Style -->
+    <link rel="stylesheet" type="text/css" media="all" href="css/layout.css"/>
+	<script type="text/javascript" src="JS/layout.js"></script>
+
+	<!-- Material Design -->
+	<link rel="stylesheet" href="lib-material/material.indigo-pink.min.css"/>
+	<script src="lib-material/material.min.js"></script>
+	<script src="/libs/pl.js"></script>
+	<script src="JS/Protopixel.js"></script>
+
+	<script>
+		"use strict"
+		function init () {
+			flex_this()
+			create_color_picker()
+			create_drawing_canvas()
+		}
+	</script>
+
+</head>
+<body id="body" onload="init()" flexer="column">
+	<canvas id="drawing_canvas" flex="1"></canvas>
+	<div flexer="row" style="margin:0.5em">
+		<canvas flex="1" height="100" id="color_picker"></canvas>
+		<div style="width:0.5em"></div>
+		<div flexer="column">
+			<div flex="1" id="rgb" style="background:red"></div>
+			<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="drawing_canvas.clear()">clear</button>
+		</div>
+	</div>
+</body>
+</html>
