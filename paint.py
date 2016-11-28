@@ -5,7 +5,7 @@ from collections import namedtuple
 
 content = Content('Paint')
 content.add_parameter('size', value=300, min=0, max=1024)
-content.add_parameter('cleat', type='button')
+content.add_parameter('clear', type='button')
 
 firstrun = True
 Finger = namedtuple('Finger', ['x', 'y', 'size', 'color'])
