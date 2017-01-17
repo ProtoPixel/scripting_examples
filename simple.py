@@ -37,7 +37,7 @@ def draw():
     ofFill()
     for i in range(0,200):
         ofSetColor(randint(0, 255), randint(0, 255), randint(0, 255))
-        ofRect(randint(0, 150), randint(0, 150),
+        ofDrawRectangle(randint(0, 150), randint(0, 150),
                 randint(10, 20), randint(10, 20))
 
 
