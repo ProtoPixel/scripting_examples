@@ -50,7 +50,7 @@ def draw():
     ofPushMatrix()
     for finger in fingers:
         ofSetColor(*finger.color)
-        ofCircle(finger.x, finger.y, finger.size)
+        ofDrawCircle(finger.x, finger.y, finger.size)
     ofPopMatrix()
 
     fingers = []
