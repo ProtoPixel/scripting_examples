@@ -52,6 +52,9 @@ content.add_parameter("a_color", type="color", value=ofColor(0, 0, 0))
 # If you don't specify the buttons here they will be automatically added at the end.
 content.add_parameter("a_button", type="button")
 
+@content.parameter_changed('a_filepath')
+def filepath_changed(newval):
+    print "New path:", newval
 
 # We must manually add buttons. You can use content.add_button to link the
 # button to the function
