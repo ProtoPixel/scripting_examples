@@ -1,4 +1,7 @@
-//https://www.shadertoy.com/view/MdXGDH
+// This code can be found in 
+// https://www.shadertoy.com/view/MdXGDH
+// and it's property of its creator.
+// This is distributed for illustration purposes only.
 
 const float PI = 3.14159265;
 

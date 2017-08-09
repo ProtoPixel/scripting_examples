@@ -1,3 +1,8 @@
+// This code can be found in 
+// https://www.shadertoy.com/view/ldX3zr
+// and it's property of its creator.
+// This is distributed for illustration purposes only.
+
 vec2 center = vec2(0.5,0.5);
 float speed = 0.035;
 

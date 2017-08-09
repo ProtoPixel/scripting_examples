@@ -1,4 +1,7 @@
-//https://www.shadertoy.com/view/XsjGDt
+// This code can be found in 
+// https://www.shadertoy.com/view/XsjGDt
+// and it's property of its creator.
+// This is distributed for illustration purposes only.
 
 /**
  * @author jonobr1 / http://jonobr1.com/

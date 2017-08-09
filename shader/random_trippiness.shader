@@ -1,4 +1,7 @@
-//https://www.shadertoy.com/view/lslGRj
+// This code can be found in 
+// https://www.shadertoy.com/view/lslGRj
+// and it's property of its creator.
+// This is distributed for illustration purposes only.
 
 int schedule = 0;
 
