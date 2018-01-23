@@ -6,10 +6,11 @@ from tempfile import mkdtemp
 
 content = Content("Shader")
 content.add_parameter("shader path", type="filepath")
+content.add_parameter("speed", value=1.0, min=0.0, max=10.0)
+content.add_parameter("reset 24h", value=False)
 
 side = 256
 content.FBO_SIZE = (side,side)
-shaderfile = content.add_asset('shader')
 shader = ofShader()
 
 temp_dir = mkdtemp()
@@ -22,10 +23,16 @@ def setup():
         shader_path_changed(content['shader path'])
 
 def draw():
+    ofClear(0,0,0,255)
     if shader.isLoaded():
+        if content['reset 24h']:
+            time = ofGetElapsedTimeMillis() % 86400000
+            time = time / 1000.0
+        else:
+            time = ofGetElapsedTimef()
         shader.begin()
         shader.setUniform3f('iResolution', float(content.FBO_SIZE[0]), float(content.FBO_SIZE[1]),0.0)
-        shader.setUniform1f('iGlobalTime', ofGetElapsedTimef())
+        shader.setUniform1f('iGlobalTime', time*content['speed'])
         ofDrawRectangle(-side/2.,-side/2.,side,side)
         shader.end()
 
@@ -40,6 +47,9 @@ def shader_path_changed(p):
         f.write(vert_contents)
     shader.load(shader_file_of)
 
+def on_enable():
+    if content['shader path']:
+        shader_path_changed(content['shader path'])
 
 vert_contents = """
 #version 150
@@ -67,7 +77,7 @@ void main()
 {
     vec2 pos = position_frag.xy;
     pos.x /= 2.0;
-    pos.y /= 2.0;
+    pos.y /= -2.0;
     pos.x += 0.5;
     pos.y += 0.5;
     pos.x *= iResolution.x;

@@ -8,7 +8,7 @@ const float PI = 3.14159265;
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
 
-float time = iGlobalTime *0.2;
+float time = iGlobalTime *0.05;
 
     float color1, color2, color;
 
