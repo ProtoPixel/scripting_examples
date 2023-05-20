@@ -1,46 +1,85 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>PPx mobile paint</title>
+	<title>Widget</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-	<!-- Meta tags -->
-	<meta charset="utf-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-	<meta name="mobile-web-app-capable" content="yes"/>
-	<meta name="apple-mobile-web-app-capable" content="yes"/>
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-	<link rel="icon" href="protologo.png"/>
-
-    <!-- Style -->
-    <link rel="stylesheet" type="text/css" media="all" href="css/layout.css"/>
-	<script type="text/javascript" src="JS/layout.js"></script>
-
-	<!-- Material Design -->
-	<link rel="stylesheet" href="lib-material/material.indigo-pink.min.css"/>
-	<script src="lib-material/material.min.js"></script>
-	<script src="/libs/html.js"></script>
-	<script src="/libs/pl.js"></script>
-	<script src="JS/Protopixel.js"></script>
+	<!-- ProtoPixel Library -->
+	<link rel="stylesheet" href="/libs/common.css">
+	<script src="../../libs/html.js#dynamic=/libs/"></script>
+	<script src="../../libs/stub_core.js"></script>
 
 	<script>
 		"use strict"
-		function init () {
-			flex_this()
-			create_color_picker()
-			create_drawing_canvas()
-		}
-	</script>
 
+		let loadpage;
+
+		newImport("../../libs/widgets/v2/paint.js")
+
+		let ws = null, app_ws = null, state = { event: "draw", color: [255, 255, 255], x: 0, y: 0, x2: 0, y2: 0 }
+		
+		loadpage = () => {
+			const p = newPaint(), elem = p.elem
+			setStyle(elem, {
+				width: "100%",
+				height: "100%",
+			})
+			append(document.body, p)
+
+			PL.app_channel().then(_ws => {
+				app_ws = _ws
+				app_ws.onmessage = (e) =>{
+					const msg = JSON.parse(e.data)
+					if(msg.lines){
+						for (let l of msg.lines){
+							p.paintLine(l[0],l[1],l[2],l[3],l[5])
+						}
+					}
+				}
+			})
+
+			p.ondraw = (v, v0) => {
+				state.x = v[0], state.y = v[1]
+				state.x2 = v0[0], state.y2 = v0[1]
+				app_ws.plsend(state)
+			}
+			p.onchangecolor = v => {
+				const c = state.color
+				c[0] = v[0], c[1] = v[1], c[2] = v[2]
+			}
+			p.onclear = () => {
+				app_ws.plsend({ event: "clear" })
+			}
+
+			let fixtures = URLParams.fixtures
+			if (fixtures)
+				fixtures = fixtures.split(",")
+
+			// get fixtures
+			PL.websocket_api().then(_ws => {
+				ws = _ws
+				Promise.all([
+					core.getAllLightsPositions(),
+					core.getFixturePositions(fixtures),
+					core._getTransformation(app_ws.channel_name, "Content")
+				]).then(([_all, _ps, t]) => {
+					const all = new Float32Array(arr_flatten(_all))
+					const ps = new Float32Array(arr_flatten(_ps))
+					p.setLights(t, all, ps)
+				})
+			})
+		}
+
+		setTimeout(loadpage,100)
+	</script>
 </head>
-<body id="body" onload="init()" flexer="column">
-	<canvas id="drawing_canvas" flex="1"></canvas>
-	<div flexer="row" style="margin:0.5em">
-		<canvas flex="1" height="100" id="color_picker"></canvas>
-		<div style="width:0.5em"></div>
-		<div flexer="column">
-			<div flex="1" id="rgb" style="background:red"></div>
-			<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="drawing_canvas.clear()">clear</button>
-		</div>
-	</div>
+
+<body>
 </body>
+
 </html>

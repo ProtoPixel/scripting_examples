@@ -1,23 +1,60 @@
-<html><body><h1>Sending Accelerometer!</h1></body>
-<script src="/libs/html.js"></script>
-<script src="/libs/pl.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<meta http-equiv="Expires" content="0"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+	<title>Remote Interface</title>
+	<style type="text/css">
+		button {
+			width: 200px;
+			height: 200px;
+		}
+	</style>
+</head>
+<body>
+	<button onclick="sendColor(255,0,0)">red</button>
+	<button onclick="sendColor(0,255,0)">green</button>	
+	<button onclick="sendColor(0,0,255)">blue</button>	
+</body>
+<script src="../../libs/pl.js"></script>
 <script type="text/javascript">
 
-//Requesting a websocket channel for the current content.
-PL.app_channel()
-.then(function (ws) {
-	if (window.DeviceMotionEvent != undefined) {
-		window.ondevicemotion = function(e) {
-			var data = {
-				x: e.accelerationIncludingGravity.x,
-				y: e.accelerationIncludingGravity.y,
-				z: e.accelerationIncludingGravity.z
-			}
-			// You can use ws.plsend() to send data to the python script
-			ws.plsend(data)
-		}
+	// Keep a reference to the websocket
+	var websocket;
+
+	// This function gets executed every time the the user hits one of the buttons.
+	function sendColor(r,g,b) {
+		websocket.plsend({r:r, g:g, b:b})
 	}
-})
-	
+
+	//Requesting a websocket channel for the current content.
+	PL.app_channel()
+	.then(function (ws) {
+
+		// Asign the websocket so it can be used outside this scope.
+		websocket = ws;
+
+		// The onmessage gets called when something is being sent from the python script
+		ws.onmessage = function(e) {
+
+			// Parse the data that comes from the 
+			var json = JSON.parse(e.data)
+
+			// Deserialize the variables and store them for convenience
+			const red   = json['r']
+			const green = json['g']
+			const blue  = json['b']
+
+			// Change the background.
+			document.body.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`
+		}
+	})
 </script>
 </html>

@@ -8,7 +8,7 @@ size = 255
 color = ofColor(255, 255, 255)
 color2 = ofColor(255, 255, 255)
 
-content = Content('Custom OSC Script')
+content = Content("Custom OSC Script")
 content.FBO_SIZE = (size, size)
 
 
@@ -36,12 +36,12 @@ def normalize(c):
     """
     Map the values from the accelerometer to 0-255
     """
-    c = c / 20.0 + .5
+    c = c / 20.0 + 0.5
     c *= 255
     return max(0, min(255, c))
 
 
-@content.OSC('/acc')
+@content.OSC("/acc")
 def acceleration(x, y, z):
     """
     This function handles OSC user input in address "/acc", with 3 arguments: x,y,z.

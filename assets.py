@@ -8,7 +8,7 @@ content = Content("Assets example Script")
 # If you want to use an external asset inside a script
 # you can declare it like this:
 
-cat_file = content.add_asset('cat.jpeg')
+cat_file = content.add_asset("cat.jpeg")
 
 # This could be a file or a folder.
 
@@ -19,11 +19,12 @@ cat_file = content.add_asset('cat.jpeg')
 # - It tells ProtoPixel Create about these files, so it can pack them when
 #   exporting a project.
 
+
 def setup():
     global image
     image = ofImage(cat_file)
     content.FBO_SIZE = (int(image.getWidth()), int(image.getHeight()))
 
-def draw():
-    image.draw(0,0)
 
+def draw():
+    image.draw(0, 0)

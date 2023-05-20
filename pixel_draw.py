@@ -1,14 +1,16 @@
+from __future__ import division
+from past.utils import old_div
 from openframeworks import *
 import numpy as np
 from protopixel import Content
 
 # You can paint directly your light points by using numpy arrays
 
-content = Content('Pixel Draw Script')
+content = Content("Pixel Draw Script")
 content.FBO_SIZE = (170, 170)
 
 # we can precalculate this
-center = np.array(content.FBO_SIZE) / 2
+center = old_div(np.array(content.FBO_SIZE), 2)
 
 
 def draw_pixels(position_array, colors_array):
@@ -28,7 +30,7 @@ def draw_pixels(position_array, colors_array):
     dx = position_array[:, 0] - center[0]  # position_array[:,0] is all x positions
     dy = position_array[:, 1] - center[1]  # position_array[:,1] is all y positions
     dist = np.sqrt(dx * dx + dy * dy)
-    r = np.sin(dist / 10 - t * 5) * .5 + .5
+    r = np.sin(old_div(dist, 10) - t * 5) * 0.5 + 0.5
     colors_array[:, 0] = r  # Red
     colors_array[:, 1] = 0.0  # Green
     colors_array[:, 2] = 1.0 - r  # Blue

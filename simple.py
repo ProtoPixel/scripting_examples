@@ -1,13 +1,15 @@
+from __future__ import print_function
+from builtins import range
 from openframeworks import *
 from protopixel import Content
 from random import randint
 
-print "Hello ProtoPixel"
+print("Hello ProtoPixel")
 
 content = Content("Simple Script")
-content.FBO_SIZE = (170,170) #optional: define size of FBO, default=(100,100)
+content.FBO_SIZE = (170, 170)  # optional: define size of FBO, default=(100,100)
 
-#a global variable
+# a global variable
 counter = 0
 
 
@@ -33,12 +35,13 @@ def draw():
     """
     For every frame draw stuff. Do not forget to clear the frmebuffer!
     """
-    ofClear(0,0,0)
+    ofClear(0, 0, 0)
     ofFill()
-    for i in range(0,200):
+    for i in range(0, 200):
         ofSetColor(randint(0, 255), randint(0, 255), randint(0, 255))
-        ofDrawRectangle(randint(0, 150), randint(0, 150),
-                randint(10, 20), randint(10, 20))
+        ofDrawRectangle(
+            randint(0, 150), randint(0, 150), randint(10, 20), randint(10, 20)
+        )
 
 
 def exit():

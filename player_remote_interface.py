@@ -6,24 +6,24 @@ from protopixel import Content
 from protopixel.core import setConfContent, callParameterContent
 
 # Define your content
-content = Content('Player Remote Interface Script')
+content = Content("Player Remote Interface Script")
 
 # Place where we have the custom remote interface
-content.web_path('player_remote_interface')
+content.web_path("player_remote_interface")
 
 
 # manage websocket incoming messages
 @content.websocket.receive
 def websocket(ws, data):
     # the message is a JSON like {"action":"play"}
-    action = data.get('action')
-    if action == 'play':
+    action = data.get("action")
+    if action == "play":
         # Play video
         # callParameterProgram is used to "push a button" of a particular content
         # In this case, the button for play has the name 'resume' and it
         # is in the section 'params', so the full name is 'params:resume'.
         callParameterContent("myvideo", "params:resume")
-    elif action == 'pause':
+    elif action == "pause":
         # Pause video
         callParameterContent("myvideo", "params:pause")
 
